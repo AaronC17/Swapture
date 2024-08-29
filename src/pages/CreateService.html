@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Service - SwapTure</title>
+    <style>
+        /* Estilos específicos para la página CreateService */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Create Service - SwapTure</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/CreateService">CreateService</a></li> 
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Create a New Service</h2>
+        <form id="createServiceForm">
+            <label for="name">Service Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            
+            <label for="price">Price ($):</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            
+            <button type="submit">Create Service</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 SwapTure. All rights reserved.</p>
+    </footer>
+    <script src="scripts/services.js"></script>
+    <script>
+        document.getElementById('createServiceForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const serviceData = {
+                name: formData.get('name'),
+                description: formData.get('description'),
+                price: parseFloat(formData.get('price'))
+            };
+            try {
+                const response = await fetch('http://localhost:5000/api/services', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(serviceData)
+                });
+                if (response.ok) {
+                    alert('Service created successfully');
+                    event.target.reset();
+                } else {
+                    alert('Failed to create service');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while creating the service');
+            }
+        });
+    </script>
+</body>
+</html>

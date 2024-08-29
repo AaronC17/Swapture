@@ -1,0 +1,14 @@
+{
+    "services": [
+        {
+            "id": 1,
+            "title": "Service 1",
+            "description": "Description for Service 1"
+        },
+        {
+            "id": 2,
+            "title": "Service 2",
+            "description": "Description for Service 2"
+        }
+    ]
+}
